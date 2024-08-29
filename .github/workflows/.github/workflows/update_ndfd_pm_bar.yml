@@ -2,7 +2,7 @@ name: Update NDFD PM Bar
 
 on:
   schedule:
-    - cron: '30 8,20 * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   generate_high_temp:
@@ -24,7 +24,7 @@ jobs:
       
       - name: Delete old plots if they exist
         run: |
-          find plots/temps/ndfd/cities/ -name '*.png' -exec rm {} +
+          find cities/ -name '*.png' -exec rm {} +
       
       - name: Run ndfd_pm_bar.py
         run: python ndfd_pm_bar.py
@@ -40,7 +40,7 @@ jobs:
           # Pop the stash
           git stash pop
           # Add changes to staging area again
-          git add plots/temps/ndfd/cities/*.png
+          git add cities/*.png
           # Check if there are changes to commit
           if git diff --staged --quiet; then
             echo "No changes to commit."
