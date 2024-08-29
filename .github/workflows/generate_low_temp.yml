@@ -1,0 +1,45 @@
+name: Generate NDFD Low Temp Plan Outputs
+
+on:
+  schedule:
+    - cron: 30 */6 * * *
+
+jobs:
+  generate_low_temp:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.18'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install xarray==2023.6.0 metpy==1.6.2 matplotlib==3.8.0 cartopy numpy==1.26.4 netCDF4==1.5.7 scipy==1.12.0
+
+      - name: Delete old plots if they exist
+        run: |
+          if ls low/NDFD_Low_Temp_*.png 1> /dev/null 2>&1; then rm low/NDFD_Low_Temp_*.png; fi
+      
+      - name: Run ndfd_low_plan.py
+        run: python ndfd_low_plan.py
+      
+      - name: Commit and push Low Temp changes
+        run: |
+          git config --local user.email "tonyillenden@gmail.com"
+          git config --local user.name "anthony-illenden"
+          git stash push -u
+          git pull --rebase origin main
+          git stash pop
+          git add low/NDFD_Low_Temp_*.png
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update NDFD Low Temp Plot"
+            git push origin main
+          fi
