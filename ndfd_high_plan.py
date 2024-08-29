@@ -47,4 +47,4 @@ if time_dim:
         contour = plt.contour(ds_latlon['longitude'], ds_latlon['latitude'], temp_f_smoothed, colors='black', levels=np.arange(30, 111, 1), linewidths=0.5)
         plt.clabel(contour, inline=True, fontsize=8, fmt='%1.0f')
         plt.title('NDFD High Temperature for {}00 UTC'.format(datetime_str))
-        plt.savefig('plots/temps/high/NDFD_High_Temp_{}.png'.format(i), dpi=450, bbox_inches='tight')
+        plt.savefig('high/NDFD_High_Temp_{}.png'.format(i), dpi=450, bbox_inches='tight')
