@@ -24,7 +24,7 @@ jobs:
 
       - name: Delete old plots if they exist
         run: |
-          if ls plots/temps/low/NDFD_Low_Temp_*.png 1> /dev/null 2>&1; then rm plots/temps/low/NDFD_Low_Temp_*.png; fi
+          if ls low/NDFD_Low_Temp_*.png 1> /dev/null 2>&1; then rm low/NDFD_Low_Temp_*.png; fi
       
       - name: Run ndfd_low_plan.py
         run: python ndfd_low_plan.py
@@ -36,7 +36,7 @@ jobs:
           git stash push -u
           git pull --rebase origin main
           git stash pop
-          git add plots/temps/low/NDFD_Low_Temp_*.png
+          git add low/NDFD_Low_Temp_*.png
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
