@@ -62,8 +62,8 @@ def plot_temperature_forecast(city_name, lat, lon):
 
     ax = plt.gca()
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%A,\n%m-%d'))
-    plt.ylim(40, 100)
-    ax.set_yticks(np.arange(40, 101, 5))
+    plt.ylim(0, 100)
+    ax.set_yticks(np.arange(0, 101, 5))
     ax.yaxis.grid(True, which='major', linestyle='--', linewidth=0.5, zorder=0, alpha=1, color='black')
     plt.ylabel('Temperature (F)')
     for bar in highs_bar:
